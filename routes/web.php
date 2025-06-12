@@ -20,3 +20,4 @@ Route::resource('services', App\Http\Controllers\ServiceController::class);
 Route::resource('services', App\Http\Controllers\ServiceController::class);
 Route::resource('services', App\Http\Controllers\ServiceController::class);
 Route::resource('products', App\Http\Controllers\ProductController::class);
+Route::resource('products', App\Http\Controllers\ProductController::class);

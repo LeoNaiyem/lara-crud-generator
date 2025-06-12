@@ -9,8 +9,8 @@ class FormViewGenerator
 {
     public function createAllViews(string $model, array $columns): void
     {
-        $modelSnakePlural = Str::snake(Str::plural($model)); // e.g., patients
-        $modelVar = Str::camel($model); // e.g., patient
+        $modelSnakePlural = Str::snake(Str::plural($model));
+        $modelVar = Str::camel($model);
         $dir = resource_path("views/$modelSnakePlural");
 
         if (!File::exists($dir)) {

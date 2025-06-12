@@ -10,9 +10,9 @@ use Illuminate\Support\Str;
 class GenerateCrud extends Command
 {
     // protected $signature = 'make:crud {table}';
-    protected $signature = 'make:crud {table} {--force : Overwrite existing files}';
+    protected $signature = 'generate:crud {table} {--force : Overwrite existing files}';
 
-    protected $description = 'Generate CRUD operations based on a MySQL table';
+    protected $description = 'Generate CRUD operations (Model, Controller, Views, Routes) from table';
 
     public function handle()
     {
@@ -34,8 +34,8 @@ class GenerateCrud extends Command
 
         $this->info("🚀 CRUD components are ready");
         $this->line('');
-        $this->line('<comment>⚡ Built with Naiyem\'s magic. You\'re welcome 😎</comment>');
-        $this->line('<comment>🔍 Next steps:</comment> Review your controller and test the routes.');
+        $this->line('<comment>⚡ Built with Naiyem\'s magic.</comment>');
+        $this->line('<comment>🔍 Next steps:</comment> Review controller and test the routes.');
         $this->line('<comment>📚 Docs:</comment> <info>https://github.com/leonaiyem/lara-crud-generator</info>');
     }
 
@@ -101,7 +101,7 @@ EOD;
 
             $relatedModelPath = app_path("Models/{$relatedModel}.php");
             if (!file_exists($relatedModelPath)) {
-                // Auto-generate related model
+
                 $this->generateModel($relatedModel, ['name']);
             }
 
@@ -196,7 +196,7 @@ PHP;
 
     protected function generateViews($model, $columns)
     {
-        // ✨ Calls dynamic form generator with smart logic
+
         (new \App\ViewGenerators\FormViewGenerator())->createAllViews($model, $columns);
         $this->info("🖥️ Views generated: index | create | edit | view | _form");
     }
