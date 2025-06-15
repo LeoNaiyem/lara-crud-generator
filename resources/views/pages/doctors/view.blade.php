@@ -1,6 +1,16 @@
 @extends('layouts.main')
 @section('content')
-    <h2>View Doctor</h2>
+    <!-- Page Header -->
+    <div class="card bg-primary mb-3 p-4">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-between align-item-center ">
+                <h3 class=" card-title text-white d-flex align-items-center  m-0">Create __MODEL__</h3>
+                <a href="{{ route('doctors.index') }}" class="btn btn-light btn-sm" title="Back">
+                    <i class="fa fa-arrow-left mr-1"></i> Back
+                </a>
+            </div>
+        </div>
+    </div> 
 <div class="mb-2">
     <strong>Id:</strong> {{ $doctor->id }}
 </div>
@@ -23,5 +33,4 @@
     <strong>Updated at:</strong> {{ $doctor->updated_at }}
 </div>
 
-    <a href="{{ route('doctors.index') }}" class="btn btn-secondary">Back</a>
 @endsection

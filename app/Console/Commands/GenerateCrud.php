@@ -41,7 +41,7 @@ class GenerateCrud extends Command
 
     protected function generateModel($model, $columns)
     {
-        $fillable = array_diff($columns, ['id', 'created_at', 'updated_at']);
+        $fillable = array_diff($columns, ['id']);
         $fillableStr = implode("', '", $fillable);
 
         $modelTemplate = <<<EOD
@@ -124,13 +124,13 @@ class $controller extends Controller
     public function index()
     {
         \$$modelPlural = $model::latest()->paginate(10);
-        return view('$modelPlural.index', compact('$modelPlural'));
+        return view('pages.$modelPlural.index', compact('$modelPlural'));
     }
 
     public function create()
     {
 $relatedLoads
-        return view('$modelPlural.create', [
+        return view('pages.$modelPlural.create', [
             'mode' => 'create',
             '$modelVar' => new $model(),
 $relatedPasses
@@ -149,13 +149,13 @@ $relatedPasses
 
     public function show($model \$${modelVar})
     {
-        return view('$modelPlural.view', compact('$modelVar'));
+        return view('pages.$modelPlural.view', compact('$modelVar'));
     }
 
     public function edit($model \$${modelVar})
     {
 $relatedLoads
-        return view('$modelPlural.edit', [
+        return view('pages.$modelPlural.edit', [
             'mode' => 'edit',
             '$modelVar' => \$${modelVar},
 $relatedPasses

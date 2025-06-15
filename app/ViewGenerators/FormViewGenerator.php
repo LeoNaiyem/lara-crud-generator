@@ -11,7 +11,7 @@ class FormViewGenerator
     {
         $modelSnakePlural = Str::snake(Str::plural($model));
         $modelVar = Str::camel($model);
-        $dir = resource_path("views/$modelSnakePlural");
+        $dir = resource_path("views/pages/$modelSnakePlural");
 
         if (!File::exists($dir)) {
             File::makeDirectory($dir, 0755, true);
@@ -75,16 +75,93 @@ ACTIONS;
 @extends('layouts.main')
 @section('content')
 <div class="container">
-    <h1>$model List</h1>
-    <a href="{{ route('$modelSnakePlural.create') }}" class="btn btn-primary mb-3">Create New</a>
-    <table class="table table-bordered">
-        <thead><tr>$thead</tr></thead>
-        <tbody>
-        @foreach (\$$modelSnakePlural as \$item)
-            <tr>$tbody</tr>
-        @endforeach
-        </tbody>
-    </table>
+    <!-- Page Header -->
+    <div class="card bg-primary mb-3 p-4">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-between align-item-center ">
+                <h3 class=" card-title text-white d-flex align-items-center  m-0">$model List</h3>
+                <a href="{{ route('$modelSnakePlural.create') }}" class="btn btn-light btn-sm" title="Create New Product">
+                    <i class="fa fa-plus mr-1"></i> Create New $model
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Filter Section -->
+    <div class="card mb-3 p-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="form-row">
+                    <!-- Search Input with Icon -->
+                    <div class="col-md-5">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text px-2 bg-primary text-white">
+                                    <i class="fa fa-search"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" id="search" placeholder="Search product by name">
+                        </div>
+                    </div>
+
+                    <!-- Filter by Category -->
+                    <div class="col-md-3">
+                        <select class="form-control" id="filterCategory">
+                            <option value="">Filter by Category</option>
+                            <option value="">option-1</option>
+                            <option value="">option-2</option>
+                            <option value="">option-3</option>
+                            <option value="">option-4</option>
+                        </select>
+                    </div>
+
+                    <!-- Apply Filters Button -->
+                    <div class="col-md-2">
+                        <button class="btn btn-primary btn-block">Apply Filters</button>
+                    </div>
+
+                    <!-- Reset Filters Button -->
+                    <div class="col-md-2">
+                        <button class="btn btn-outline-danger btn-block">Reset Filters</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end filter section -->
+
+    <!-- Table section -->
+    <div class="card mb-3 p-4">
+        <!-- Table -->
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark"><tr>$thead</tr></thead>
+                <tbody>
+                @foreach (\$$modelSnakePlural as \$item)
+                    <tr>$tbody</tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+        <!-- Pagination -->
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <!-- End table section -->
 </div>
 @endsection
 BLADE;
@@ -155,9 +232,19 @@ BLADE;
         $template = <<<'BLADE'
 @extends('layouts.main')
 @section('content')
-    <h2>Create __MODEL__</h2>
+    <!-- Page Header -->
+    <div class="card bg-primary mb-3 p-4">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-between align-item-center ">
+                <h3 class=" card-title text-white d-flex align-items-center  m-0">Create __MODEL__</h3>
+                <a href="{{ route('__ROUTE__.index') }}" class="btn btn-light btn-sm" title="Back">
+                    <i class="fa fa-arrow-left mr-1"></i> Back
+                </a>
+            </div>
+        </div>
+    </div>    
     <form action="{{ route('__ROUTE__.store') }}" method="POST" enctype="multipart/form-data">
-        @include('__ROUTE__._form', ['mode' => 'create', '__MODELVAR__' => new App\Models\__MODEL__])
+        @include('pages.__ROUTE__._form', ['mode' => 'create', '__MODELVAR__' => new App\Models\__MODEL__])
     </form>
 @endsection
 BLADE;
@@ -175,14 +262,24 @@ BLADE;
     protected function createEditView($dir, $model, $modelVar, $modelSnakePlural)
     {
         $template = <<<'BLADE'
-    @extends('layouts.main')
-    @section('content')
-        <h2>Edit __MODEL__</h2>
-        <form action="{{ route('__ROUTE__.update', $__MODELVAR__->id) }}" method="POST" enctype="multipart/form-data">
-            @include('__ROUTE__._form', ['mode' => 'edit', '__MODELVAR__' => $__MODELVAR__])
-        </form>
-    @endsection
-    BLADE;
+@extends('layouts.main')
+@section('content')
+    <!-- Page Header -->
+    <div class="card bg-primary mb-3 p-4">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-between align-item-center ">
+                <h3 class=" card-title text-white d-flex align-items-center  m-0">Edit __MODEL__</h3>
+                <a href="{{ route('__ROUTE__.index') }}" class="btn btn-light btn-sm" title="Back">
+                    <i class="fa fa-arrow-left mr-1"></i> Back
+                </a>
+            </div>
+        </div>
+    </div> 
+    <form action="{{ route('__ROUTE__.update', $__MODELVAR__->id) }}" method="POST" enctype="multipart/form-data">
+        @include('pages.__ROUTE__._form', ['mode' => 'edit', '__MODELVAR__' => $__MODELVAR__])
+    </form>
+@endsection
+BLADE;
 
         $template = str_replace(
             ['__MODEL__', '__MODELVAR__', '__ROUTE__'],
@@ -191,6 +288,7 @@ BLADE;
         );
 
         File::put("$dir/edit.blade.php", $template);
+
     }
 
 
@@ -244,9 +342,18 @@ BLADE;
         $template = <<<BLADE
 @extends('layouts.main')
 @section('content')
-    <h2>View $model</h2>
+    <!-- Page Header -->
+    <div class="card bg-primary mb-3 p-4">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-between align-item-center ">
+                <h3 class=" card-title text-white d-flex align-items-center  m-0">Create __MODEL__</h3>
+                <a href="{{ route('$modelSnakePlural.index') }}" class="btn btn-light btn-sm" title="Back">
+                    <i class="fa fa-arrow-left mr-1"></i> Back
+                </a>
+            </div>
+        </div>
+    </div> 
 $fields
-    <a href="{{ route('$modelSnakePlural.index') }}" class="btn btn-secondary">Back</a>
 @endsection
 BLADE;
 

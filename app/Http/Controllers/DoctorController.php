@@ -13,7 +13,7 @@ class DoctorController extends Controller
     public function index()
     {
         $doctors = Doctor::latest()->paginate(10);
-        return view('doctors.index', compact('doctors'));
+        return view('pages.doctors.index', compact('doctors'));
     }
 
     public function create()
@@ -21,7 +21,7 @@ class DoctorController extends Controller
         $designations = \App\Models\Designation::all();
         $departments = \App\Models\Department::all();
 
-        return view('doctors.create', [
+        return view('pages.doctors.create', [
             'mode' => 'create',
             'doctor' => new Doctor(),
             'designations' => $designations,
@@ -42,7 +42,7 @@ class DoctorController extends Controller
 
     public function show(Doctor $doctor)
     {
-        return view('doctors.view', compact('doctor'));
+        return view('pages.doctors.view', compact('doctor'));
     }
 
     public function edit(Doctor $doctor)
@@ -50,7 +50,7 @@ class DoctorController extends Controller
         $designations = \App\Models\Designation::all();
         $departments = \App\Models\Department::all();
 
-        return view('doctors.edit', [
+        return view('pages.doctors.edit', [
             'mode' => 'edit',
             'doctor' => $doctor,
             'designations' => $designations,

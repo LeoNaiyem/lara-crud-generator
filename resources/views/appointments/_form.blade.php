@@ -23,7 +23,8 @@
 </div>
 <div class="mb-2">
     <label>Appointment at</label>
-    <input type="text" name="appointment_at" value="{{ old('appointment_at', $appointment->appointment_at ?? '') }}" class="form-control">
+    <input type="text" name="appointment_at" value="{{ old('appointment_at', $appointment->appointment_at ?? '') }}"
+        class="form-control">
 </div>
 <div class="mb-2">
     <label>Cc</label>
